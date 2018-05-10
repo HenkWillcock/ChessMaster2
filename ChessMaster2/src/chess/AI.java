@@ -147,7 +147,7 @@ public class AI
 				
 				ArrayList<Cell> moves = movement.getAllMoves(ownPiece);
 				for(Cell dest: moves)
-				{	
+				{
 					nodeCount++;
 					Move tempMove = movement.moveTo(ownPiece, dest);
 					//System.out.println(ownPiece+" "+moves+" "+tempMove+" "+dest);

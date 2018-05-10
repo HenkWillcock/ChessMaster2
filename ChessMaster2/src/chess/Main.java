@@ -87,7 +87,6 @@ public class Main
 	{
 		//System.out.println(colour);
 		this.colour = colour;
-
 		this.colour2 = Board.opposite(colour);
 		
 		try 

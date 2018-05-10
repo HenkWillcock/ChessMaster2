@@ -124,6 +124,11 @@ public class Controller {
 		message.setSize(300, 300);
 	}
 	
+	public int gameMode() {
+		//For testing only.
+		return this.gameMode;
+	}
+	
 	/**
 	 * MouseHandler class which calls clicked() of GraphicsHandler object,
 	 * with the x and y coordinates of a mouse click.
