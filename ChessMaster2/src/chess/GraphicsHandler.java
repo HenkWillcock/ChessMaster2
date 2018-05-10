@@ -78,11 +78,9 @@ public class GraphicsHandler extends JPanel {
 		} else {
 			this.drawWhiteCell(graphics, cellXOnScreen, cellYOnScreen);
 		}
+		this.highlightCellIfNecessary(graphics, currentCell, cellXOnScreen, cellYOnScreen);
 		graphics.setColor(Color.BLACK);
 		graphics.drawRect(cellXOnScreen, cellYOnScreen, colLen, rowLen);
-		this.highlightCellIfNecessary(graphics, currentCell, cellXOnScreen, cellYOnScreen);
-		//graphics.setColor(Color.BLACK);
-		//graphics.drawRect(cellXOnScreen, cellYOnScreen, colLen, rowLen);
 		String pieceType = board.getPieceType(currentCell);
 		Class<? extends Piece> pieceClass = board.getPieceClass(currentCell);
 		
