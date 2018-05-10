@@ -52,34 +52,46 @@ public class GraphicsHandler extends JPanel {
 		this.drawBoardLabels(graphics);
 		for (int row = 0; row < Board.BOARD_SIZE; row++) {
 			for (int col = 0; col < Board.BOARD_SIZE; col++) {
-				this.drawCompleteCell(graphics, row, col);
+				this.drawCellWithPiece(graphics, row, col);
 			}
 		}
 	}
 	
+	/**
+	 * Draws the row numbers down the left hand side of the board and the column letters across the top.
+	 */
 	private void drawBoardLabels(Graphics graphics) {
 		graphics.setFont(new Font("Serif", Font.BOLD, 24));
 		this.drawColumnLabels(graphics);
 		this.drawRowLabels(graphics);
 	}
 	
-	private void drawCompleteCell(Graphics graphics, int row, int col) {
+	/**
+	 * Draws a cell of the chess board, including a border and the piece on the cell.
+	 */
+	private void drawCellWithPiece(Graphics graphics, int row, int col) {
 		int cellXOnScreen = x0 + row * rowLen;
 		int cellYOnScreen = y0 + col * colLen;
 		Cell currentCell = board.getCellAt(Board.rowMax - col, row + Board.colMin);
-		if(evenCell(row, col)) {
+		if(greyCell(row, col)) {
 			this.drawGreyCell(graphics, cellXOnScreen, cellYOnScreen);
 		} else {
 			this.drawWhiteCell(graphics, cellXOnScreen, cellYOnScreen);
 		}
+		graphics.setColor(Color.BLACK);
+		graphics.drawRect(cellXOnScreen, cellYOnScreen, colLen, rowLen);
 		this.highlightCellIfNecessary(graphics, currentCell, cellXOnScreen, cellYOnScreen);
-		
+		//graphics.setColor(Color.BLACK);
+		//graphics.drawRect(cellXOnScreen, cellYOnScreen, colLen, rowLen);
 		String pieceType = board.getPieceType(currentCell);
 		Class<? extends Piece> pieceClass = board.getPieceClass(currentCell);
 		
 		this.drawPiece(graphics, pieceType, pieceClass, cellXOnScreen, cellYOnScreen);
 	}
 	
+	/**
+	 * Draws a piece, given the piece type and a location on the screen.
+	 */
 	private void drawPiece(Graphics graphics, String pieceType, Class<? extends Piece> pieceClass, int cellXOnScreen,
 			int cellYOnScreen) {
 		if (pieceType == null) {
@@ -101,10 +113,16 @@ public class GraphicsHandler extends JPanel {
 		pieceIcon.paintIcon(this, graphics, cellXOnScreen, cellYOnScreen);
 	}
 
-	private boolean evenCell(int row, int col) {
+	/**
+	 * Returns whether a cell should be grey (returns true) or white (returns false).
+	 */
+	private boolean greyCell(int row, int col) {
 		return (row + col) % 2 == 1;
 	}
 
+	/**
+	 * Draws the row numbers down the left side of the board.
+	 */
 	private void drawRowLabels(Graphics graphics) {
 		graphics.setColor(Color.BLACK);
 		
@@ -116,6 +134,9 @@ public class GraphicsHandler extends JPanel {
 		}
 	}
 
+	/**
+	 * Draws the column letters across the top of the board.
+	 */
 	private void drawColumnLabels(Graphics graphics) {
 		graphics.setColor(Color.BLACK);
 		
@@ -127,20 +148,25 @@ public class GraphicsHandler extends JPanel {
 		}
 	}
 	
+	/**
+	 * Draws a grey cell.
+	 */
 	private void drawGreyCell(Graphics graphics, int cellXOnScreen, int cellYOnScreen) {
 		graphics.setColor(Color.LIGHT_GRAY);
 		graphics.fillRect(cellXOnScreen + border, cellYOnScreen + border, colLen - border, rowLen - border);
-		graphics.setColor(Color.BLACK);
-		graphics.drawRect(cellXOnScreen, cellYOnScreen, colLen, rowLen);
 	}
 	
+	/**
+	 * Draws a white cell.
+	 */
 	private void drawWhiteCell(Graphics graphics, int cellXOnScreen, int cellYOnScreen) {
 		graphics.setColor(Color.WHITE);
 		graphics.fillRect(cellXOnScreen + border, cellYOnScreen + border, colLen - border, rowLen - border);
-		graphics.setColor(Color.BLACK);
-		graphics.drawRect(cellXOnScreen, cellYOnScreen, colLen, rowLen);
 	}
 	
+	/**
+	 * Checks if a cell is selected, or if it is a square that can be moved to. In either case highlights the cell the appropriate colour.
+	 */
 	private void highlightCellIfNecessary(Graphics graphics, Cell cell, int cellXOnScreen, int cellYOnScreen) {
 		if (cell.isSelected()) {
 			graphics.setColor(HIGHLIGHT);
